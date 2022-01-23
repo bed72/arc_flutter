@@ -7,4 +7,9 @@ extension PokemonModel on PokemonEntity {
       name: json['name'],
     );
   }
+
+  Map<String, dynamic> toJson() => {
+        'url': url,
+        'name': name,
+      };
 }

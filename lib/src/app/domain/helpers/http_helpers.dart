@@ -27,30 +27,3 @@ extension HttpErrorExtension on HttpError {
     }
   }
 }
-
-enum HttpMethod {
-  get,
-  put,
-  post,
-  patch,
-  delete,
-}
-
-extension HttpMethodExtension on HttpMethod {
-  String get descripition {
-    switch (this) {
-      case HttpMethod.get:
-        return 'get';
-      case HttpMethod.put:
-        return 'put';
-      case HttpMethod.post:
-        return 'post';
-      case HttpMethod.patch:
-        return 'patch';
-      case HttpMethod.delete:
-        return 'delete';
-      default:
-        return 'get';
-    }
-  }
-}

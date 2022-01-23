@@ -5,9 +5,10 @@ import 'package:get_it/get_it.dart';
 import 'package:pokedex/src/app/main/utils/constants/app_constants.dart';
 
 import 'package:pokedex/src/app/domain/entities/get_pokemons_params_entity.dart';
+import 'package:pokedex/src/app/presentation/widgets/error_widget.dart';
+import 'package:pokedex/src/app/presentation/widgets/load_widget.dart';
 
 import 'package:pokedex/src/app/presentation/widgets/paging_widget.dart';
-import 'package:pokedex/src/app/presentation/controllers/get/get_pokemons_states.dart';
 import 'package:pokedex/src/app/presentation/controllers/get/get_pokemons_controller.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -63,15 +64,11 @@ class _HomeScreenState extends State<HomeScreen> {
           valueListenable: _controller,
           builder: (_, state, child) {
             if (state is LoadingGetPokemonsState) {
-              return const Center(
-                child: CircularProgressIndicator(),
-              );
+              return loadWiget();
             }
 
             if (state is FailureGetPokemonsState) {
-              return Center(
-                child: Text(state.message),
-              );
+              return errorMessageWidget(message: state.message);
             }
 
             return PagingWidget(

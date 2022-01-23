@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 
 import 'package:get_it/get_it.dart';
-import 'package:flutter_svg/svg.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
 import 'package:pokedex/src/app/main/utils/constants/app_constants.dart';
 
 import 'package:pokedex/src/app/domain/entities/pokemons_entity.dart';
 import 'package:pokedex/src/app/domain/entities/get_pokemons_params_entity.dart';
 
-import 'package:pokedex/src/app/presentation/controllers/paging/get_pokemons_paging_controller.dart';
+import 'package:pokedex/src/app/presentation/widgets/error_widget.dart';
+import 'package:pokedex/src/app/presentation/widgets/load_widget.dart';
+
+import 'package:pokedex/src/app/infrastructure/database/singleton/database_sigleton.dart';
+
 import 'package:pokedex/src/app/presentation/widgets/staggered_grid_view_widget.dart';
+import 'package:pokedex/src/app/presentation/controllers/paging/get_pokemons_paging_controller.dart';
 
 class PagingWidget extends StatefulWidget {
   final PokemonsEntity pokemons;
@@ -43,6 +48,7 @@ class _PagingWidgetState extends State<PagingWidget> {
   void dispose() {
     _controller.dispose();
     _scrollController.dispose();
+    DatabaseSingleton.instance.database.close();
 
     super.dispose();
   }
@@ -110,17 +116,11 @@ class _PagingWidgetState extends State<PagingWidget> {
                 children: <Widget>[
                   Expanded(
                     flex: 2,
-                    child: SvgPicture.network(
-                      '${Constants.imageURL}${index + 1}.svg',
-                      semanticsLabel: pokemons.name,
-                      width: 64,
-                      height: 64,
-                      placeholderBuilder: (BuildContext context) => Container(
-                        padding: const EdgeInsets.all(6.0),
-                        child: const Center(
-                          child: CircularProgressIndicator(),
-                        ),
-                      ),
+                    child: CachedNetworkImage(
+                      imageUrl:
+                          _controller.handleUrlImagePokemons(index: index + 1),
+                      placeholder: (_, __) => loadWiget(),
+                      errorWidget: (_, __, ___) => errorIconWidget(),
                     ),
                   ),
                   Expanded(

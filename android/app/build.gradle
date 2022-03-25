@@ -23,7 +23,7 @@ if (flutterVersionName == null) {
 
 def flutterVersionMinSdkVersion = localProperties.getProperty('flutter.minSdkVersion')
 if (flutterVersionMinSdkVersion == null) {
-    flutterVersionName = flutter.minSdkVersion
+    flutterVersionMinSdkVersion = flutter.minSdkVersion
 }
 
 apply plugin: 'kotlin-android'
